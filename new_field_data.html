@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoExposure™ | Field Data</title>
+
+  <style>
+    :root {
+      --bg:#f6f8f7;
+      --card:#fff;
+      --text:#1f2933;
+      --muted:#6b7280;
+      --border:#d7ded9;
+      --accent:#0f766e;
+      --accent-dark:#115e59;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    header {
+      padding:22px 16px;
+      background:linear-gradient(135deg,#0f766e,#164e63);
+      color:#fff;
+    }
+
+    header h1 {
+      margin:0 0 6px;
+      font-size:1.45rem;
+    }
+
+    header p {
+      margin:0;
+      font-size:.95rem;
+      opacity:.9;
+    }
+
+    main {
+      max-width:760px;
+      margin:0 auto;
+      padding:16px;
+    }
+
+    section {
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:16px;
+      margin-bottom:16px;
+      box-shadow:0 1px 4px rgba(0,0,0,.04);
+    }
+
+    h2 {
+      font-size:1.05rem;
+      margin:0 0 14px;
+    }
+
+    label {
+      display:block;
+      font-size:.88rem;
+      font-weight:600;
+      margin:12px 0 5px;
+    }
+
+    textarea {
+      width:100%;
+      padding:11px 12px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      font-size:1rem;
+      background:#fff;
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .info-box {
+      margin-top:10px;
+      padding:10px;
+      background:#eef7f5;
+      border-radius:10px;
+      font-size:.9rem;
+      color:var(--muted);
+    }
+
+    .image-slot {
+      border:1px dashed var(--border);
+      border-radius:12px;
+      padding:12px;
+      background:#fbfcfb;
+    }
+
+    .preview {
+      display:none;
+      margin-top:12px;
+      max-height:320px;
+      max-width:100%;
+      border-radius:10px;
+      border:1px solid var(--border);
+    }
+
+    button {
+      border:none;
+      border-radius:10px;
+      padding:11px 14px;
+      font-size:.98rem;
+      font-weight:700;
+      cursor:pointer;
+      background:var(--accent);
+      color:#fff;
+      width:100%;
+      margin-top:10px;
+    }
+
+    button:hover {
+      background:var(--accent-dark);
+    }
+
+    button.secondary {
+      background:#e5e7eb;
+      color:var(--text);
+    }
+
+    .top-nav {
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+
+    .top-nav a {
+      color:var(--accent);
+      font-weight:700;
+      text-decoration:none;
+    }
+
+    .status {
+      margin-top:10px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .captured-label {
+      display:none;
+      margin-top:8px;
+      font-size:.86rem;
+      color:#047857;
+      font-weight:700;
+    }
+
+    .button-row {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .button-row button,
+    .button-row label {
+      margin-top:0;
+    }
+
+    .file-button {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:none;
+      border-radius:10px;
+      padding:11px 14px;
+      font-size:.98rem;
+      font-weight:700;
+      cursor:pointer;
+      background:#e5e7eb;
+      color:var(--text);
+      width:100%;
+    }
+
+    .file-button input {
+      display:none;
+    }
+
+    dialog {
+      border:none;
+      border-radius:16px;
+      padding:0;
+      max-width:520px;
+      width:calc(100% - 24px);
+      box-shadow:0 18px 60px rgba(0,0,0,.28);
+    }
+
+    dialog::backdrop {
+      background:rgba(15,23,42,.66);
+    }
+
+    .dialog-inner {
+      padding:16px;
+    }
+
+    .dialog-actions {
+      display:flex;
+      gap:10px;
+    }
+
+    .dialog-actions button {
+      width:auto;
+      flex:1;
+    }
+
+    @media (max-width:520px) {
+      .button-row {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Field Data</h1>
+    <p>Capture a photo, add location and notes, and save your observation.</p>
+  </header>
+
+  <main>
+    <div class="top-nav">
+      <a href="./index.html">← Home</a>
+      <a href="./my-data.html">My Data</a>
+      <a href="./my-field-data.html">My Field Data →</a>
+    </div>
+
+    <section>
+      <h2>Photo</h2>
+
+      <div class="image-slot">
+        <div class="button-row">
+          <button type="button" onclick="openPhotoCamera()">📷 Take Photo</button>
+
+          <label class="file-button">
+            📎 Choose Photo / File
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              onchange="handleFileSelect(event)"
+            />
+          </label>
+        </div>
+
+        <div id="photoCaptured" class="captured-label">✓ Photo added</div>
+        <img id="photoPreview" class="preview" alt="Field data preview" />
+      </div>
+    </section>
+
+    <section>
+      <h2>Location</h2>
+
+      <button type="button" onclick="captureGPS()">📍 Add GPS</button>
+      <div id="gpsStatus" class="info-box">No GPS location captured yet.</div>
+    </section>
+
+    <section>
+      <h2>Field Notes</h2>
+
+      <textarea
+        id="notes"
+        placeholder="Type or dictate field notes, observations, device readings, environmental conditions, or other information..."
+      ></textarea>
+      <div class="info-box">You can type or use your phone keyboard’s microphone to dictate notes.</div>
+    </section>
+
+    <section>
+      <h2>Save</h2>
+
+      <button type="button" onclick="saveEntry()">Save Field Data</button>
+      <button class="secondary" type="button" onclick="clearDraft()">Clear Current Draft</button>
+
+      <div id="saveStatus" class="status">No entry saved yet.</div>
+    </section>
+  </main>
+
+  <dialog id="photoDialog">
+    <div class="dialog-inner">
+      <h2>Take Photo</h2>
+
+      <video
+        id="photoCameraPreview"
+        autoplay
+        playsinline
+        muted
+        style="width:100%;max-height:65vh;background:#000;border-radius:12px;"
+      ></video>
+
+      <div id="photoCameraStatus" class="status">Opening camera...</div>
+
+      <div class="dialog-actions">
+        <button type="button" onclick="takeLivePhoto()">Take Photo</button>
+        <button type="button" class="secondary" onclick="closePhotoCamera()">Cancel</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    /*
+      Expected Supabase setup:
+
+      Storage bucket:
+        ecotera_other_data
+
+      Table:
+        other_data
+
+      Suggested columns:
+        id uuid primary key default gen_random_uuid()
+        user_id uuid not null
+        photo_path text
+        notes text
+        latitude double precision
+        longitude double precision
+        created_at timestamptz default now()
+
+      Recommended:
+        Enable Row Level Security on other_data.
+        Allow authenticated users to insert/select only rows where user_id = auth.uid().
+        Configure matching per-user storage policies for ecotera_other_data.
+    */
+
+    const SUPABASE_URL = "https://ndiltdoguobelvcdmhms.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_AgCVjaXgVRvooqCphASxZA_YAauoLe4";
+
+    const OTHER_DATA_BUCKET = "ecotera_home_other_data";
+    const OTHER_DATA_TABLE = "ecotera_home_other_data";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    let currentUser = null;
+    let latitude = null;
+    let longitude = null;
+    let photoStream = null;
+    let selectedPhotoBlob = null;
+
+    async function requireLogin() {
+      const { data, error } = await supabaseClient.auth.getUser();
+
+      if (error || !data.user) {
+        window.location.replace("login.html");
+        return;
+      }
+
+      currentUser = data.user;
+    }
+
+    function captureGPS() {
+      const box = document.getElementById("gpsStatus");
+
+      if (!navigator.geolocation) {
+        box.textContent = "GPS is not supported in this browser.";
+        return;
+      }
+
+      box.textContent = "Requesting GPS location...";
+
+      navigator.geolocation.getCurrentPosition(
+        p => {
+          latitude = p.coords.latitude;
+          longitude = p.coords.longitude;
+
+          box.textContent =
+            `Location captured: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+        },
+
+        e => {
+          box.textContent = `GPS error: ${e.message}`;
+        },
+
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    }
+
+    async function openPhotoCamera() {
+      const dialog = document.getElementById("photoDialog");
+      const video = document.getElementById("photoCameraPreview");
+      const status = document.getElementById("photoCameraStatus");
+
+      status.textContent = "Opening camera...";
+      dialog.showModal();
+
+      try {
+        photoStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: "environment" },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
+          },
+          audio: false
+        });
+
+        video.srcObject = photoStream;
+        await video.play();
+
+        status.textContent = "Position the subject, then tap Take Photo.";
+      } catch (e) {
+        console.error("Photo camera error:", e);
+
+        status.textContent =
+          "Camera unavailable. Please allow camera access in your browser settings.";
+      }
+    }
+
+    function stopPhotoStream() {
+      if (photoStream) {
+        photoStream.getTracks().forEach(track => track.stop());
+        photoStream = null;
+      }
+
+      document.getElementById("photoCameraPreview").srcObject = null;
+    }
+
+    function closePhotoCamera() {
+      stopPhotoStream();
+
+      const dialog = document.getElementById("photoDialog");
+      if (dialog.open) dialog.close();
+    }
+
+    async function takeLivePhoto() {
+      const video = document.getElementById("photoCameraPreview");
+      const status = document.getElementById("photoCameraStatus");
+
+      if (!photoStream || !video.videoWidth || !video.videoHeight) {
+        status.textContent = "Camera is not ready yet.";
+        return;
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const blob = await new Promise(resolve => {
+        canvas.toBlob(resolve, "image/jpeg", 0.92);
+      });
+
+      if (!blob) {
+        status.textContent = "Photo capture failed. Please try again.";
+        return;
+      }
+
+      selectedPhotoBlob = blob;
+      showPhotoPreview(blob);
+
+      stopPhotoStream();
+      document.getElementById("photoDialog").close();
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files?.[0];
+
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        document.getElementById("saveStatus").textContent =
+          "Please choose an image file.";
+        event.target.value = "";
+        return;
+      }
+
+      selectedPhotoBlob = file;
+      showPhotoPreview(file);
+    }
+
+    function showPhotoPreview(blob) {
+      const preview = document.getElementById("photoPreview");
+
+      if (preview.dataset.objectUrl) {
+        URL.revokeObjectURL(preview.dataset.objectUrl);
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
+
+      preview.src = objectUrl;
+      preview.dataset.objectUrl = objectUrl;
+      preview.style.display = "block";
+
+      document.getElementById("photoCaptured").style.display = "block";
+    }
+
+    async function compressImage(blob, baseName) {
+      const bitmap = await createImageBitmap(blob);
+      const MAX_DIMENSION = 1400;
+
+      const scale = Math.min(
+        1,
+        MAX_DIMENSION / Math.max(bitmap.width, bitmap.height)
+      );
+
+      const width = Math.round(bitmap.width * scale);
+      const height = Math.round(bitmap.height * scale);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(bitmap, 0, 0, width, height);
+
+      const compressedBlob = await new Promise(resolve => {
+        canvas.toBlob(resolve, "image/webp", 0.72);
+      });
+
+      bitmap.close();
+
+      if (!compressedBlob) {
+        throw new Error("Image compression failed.");
+      }
+
+      return new File(
+        [compressedBlob],
+        `${baseName}.webp`,
+        { type: "image/webp" }
+      );
+    }
+
+    function timestampString() {
+      const d = new Date();
+      const p = v => String(v).padStart(2, "0");
+
+      return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}`;
+    }
+
+    async function uploadPhoto() {
+      if (!selectedPhotoBlob) {
+        return null;
+      }
+
+      const file = await compressImage(
+        selectedPhotoBlob,
+        `EcoExposure_FieldData_${timestampString()}`
+      );
+
+      const path =
+        `${currentUser.id}/EcoExposure_FieldData_${timestampString()}.webp`;
+
+      const { error } =
+        await supabaseClient.storage
+          .from(OTHER_DATA_BUCKET)
+          .upload(
+            path,
+            file,
+            {
+              cacheControl: "3600",
+              upsert: false
+            }
+          );
+
+      if (error) {
+        throw new Error(
+          `Photo upload failed: ${error.message}`
+        );
+      }
+
+      return path;
+    }
+
+    async function saveEntry() {
+      const status = document.getElementById("saveStatus");
+      const notes = document.getElementById("notes").value.trim();
+
+      status.textContent = "Checking login...";
+
+      if (!currentUser) {
+        await requireLogin();
+      }
+
+      if (!currentUser) {
+        return;
+      }
+
+      if (!selectedPhotoBlob && !notes) {
+        status.textContent =
+          "Add a photo or enter a note before saving.";
+        return;
+      }
+
+      try {
+        let photoPath = null;
+
+        if (selectedPhotoBlob) {
+          status.textContent = "Uploading photo...";
+          photoPath = await uploadPhoto();
+        }
+
+        status.textContent = "Saving entry...";
+
+        const { error } =
+          await supabaseClient
+            .from(OTHER_DATA_TABLE)
+            .insert({
+              user_id: currentUser.id,
+              photo_path: photoPath,
+              notes: notes || null,
+              latitude: latitude,
+              longitude: longitude
+            });
+
+        if (error) {
+          throw new Error(
+            `Database save failed: ${error.message}`
+          );
+        }
+
+        status.textContent = "✅ Field Data saved.";
+
+        clearDraft(false);
+
+      } catch (e) {
+        console.error(e);
+        status.textContent = e.message;
+      }
+    }
+
+    function clearDraft(updateStatus = true) {
+      document.getElementById("notes").value = "";
+      document.getElementById("fileInput").value = "";
+
+      latitude = null;
+      longitude = null;
+      selectedPhotoBlob = null;
+
+      document.getElementById("gpsStatus").textContent =
+        "No GPS location captured yet.";
+
+      const preview = document.getElementById("photoPreview");
+
+      if (preview.dataset.objectUrl) {
+        URL.revokeObjectURL(preview.dataset.objectUrl);
+        delete preview.dataset.objectUrl;
+      }
+
+      preview.style.display = "none";
+      preview.removeAttribute("src");
+
+      document.getElementById("photoCaptured").style.display = "none";
+
+      if (updateStatus) {
+        document.getElementById("saveStatus").textContent =
+          "Draft cleared.";
+      }
+    }
+
+    requireLogin();
+  </script>
+</body>
+</html>
