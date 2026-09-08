@@ -24,10 +24,10 @@ main{max-width:900px;margin:auto;padding:16px}.top-nav{display:flex;gap:12px;fle
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL="https://ndiltdoguobelvcdmhms.supabase.co";
-const SUPABASE_KEY="sb_publishable_AgCVjaXgVRvooqCphASxZA_YAauoLe4";
-const OTHER_DATA_BUCKET="ecotera_home_other_data";
-const OTHER_DATA_TABLE="ecotera_home_other_data";
+const SUPABASE_URL="https://qvmgrchkmmezpwhlfxjv.supabase.co";
+const SUPABASE_KEY="sb_publishable_3M-2qrVCnjO9XfjsBCUf6g_l1wSuwVu";
+const OTHER_DATA_BUCKET="field-data";
+const OTHER_DATA_TABLE="field_data";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let currentUser=null;
 
@@ -51,13 +51,13 @@ async function load(){
   const status=document.getElementById("status"),box=document.getElementById("entries");
   if(!await requireLogin())return;
   const {data,error}=await supabaseClient.from(OTHER_DATA_TABLE)
-    .select("id,user_id,photo_path,notes,latitude,longitude,created_at")
+    .select("id,user_id,file_path,notes,latitude,longitude,created_at")
     .eq("user_id",currentUser.id).order("created_at",{ascending:false});
   if(error){status.textContent="Could not load Field Data: "+error.message;return}
   if(!data||!data.length){status.style.display="none";box.innerHTML='<div class="empty">No Field Data saved yet.</div>';return}
   status.textContent=data.length+" saved entr"+(data.length===1?"y":"ies");
   for(const row of data){
-    const url=await signedUrl(row.photo_path);
+    const url=await signedUrl(row.file_path);
     const gps=(row.latitude!=null&&row.longitude!=null)?Number(row.latitude).toFixed(5)+", "+Number(row.longitude).toFixed(5):"";
     const card=document.createElement("article");card.className="card";
     card.innerHTML=`<div class="photo">${url?`<img src="${esc(url)}" alt="Field Data photo">`:'<div class="no-photo">No photo</div>'}</div>

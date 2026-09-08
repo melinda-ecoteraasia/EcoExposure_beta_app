@@ -48,10 +48,10 @@
 </main>
 
 <script>
-const SUPABASE_URL="https://ndiltdoguobelvcdmhms.supabase.co";
-const SUPABASE_KEY="sb_publishable_AgCVjaXgVRvooqCphASxZA_YAauoLe4";
-const FIELD_DATA_BUCKET="ecotera_home_other_data";
-const FIELD_DATA_TABLE="ecotera_home_other_data";
+const SUPABASE_URL="https://qvmgrchkmmezpwhlfxjv.supabase.co";
+const SUPABASE_KEY="sb_publishable_3M-2qrVCnjO9XfjsBCUf6g_l1wSuwVu";
+const FIELD_DATA_BUCKET="field-data";
+const FIELD_DATA_TABLE="field_data";
 const SAMPLE_TABLE="samples";
 
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -81,7 +81,7 @@ async function load(){
 
   const [samplesResult,fieldResult]=await Promise.all([
     supabaseClient.from(SAMPLE_TABLE).select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}),
-    supabaseClient.from(FIELD_DATA_TABLE).select("id,user_id,photo_path,notes,latitude,longitude,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false})
+    supabaseClient.from(FIELD_DATA_TABLE).select("id,user_id,file_path,notes,latitude,longitude,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false})
   ]);
 
   if(samplesResult.error){status.textContent="Could not load EcoExposure samples: "+samplesResult.error.message;return}
@@ -155,8 +155,8 @@ async function render(){
         <div class="meta">${gps?`<div><strong>GPS:</strong> ${esc(gps)}</div>`:""}</div>
         ${row.notes?`<div class="notes">${esc(row.notes)}</div>`:'<div class="notes" style="color:#6b7280">No notes</div>'}
       `;
-      if(row.photo_path){
-        const url=await signedUrl(FIELD_DATA_BUCKET,row.photo_path);
+      if(row.file_path){
+        const url=await signedUrl(FIELD_DATA_BUCKET,row.file_path);
         if(url){const grid=document.createElement("div");grid.className="photo-grid";const img=document.createElement("img");img.src=url;img.alt="Field Data photo";img.loading="lazy";grid.appendChild(img);card.appendChild(grid)}
       }
     }

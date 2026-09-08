@@ -310,31 +310,31 @@
       Expected Supabase setup:
 
       Storage bucket:
-        ecotera_other_data
+        field-data
 
       Table:
-        other_data
+        field_data
 
       Suggested columns:
         id uuid primary key default gen_random_uuid()
         user_id uuid not null
-        photo_path text
+        file_path text
         notes text
         latitude double precision
         longitude double precision
         created_at timestamptz default now()
 
       Recommended:
-        Enable Row Level Security on other_data.
+        Enable Row Level Security on field_data.
         Allow authenticated users to insert/select only rows where user_id = auth.uid().
-        Configure matching per-user storage policies for ecotera_other_data.
+        Configure matching per-user storage policies for field-data.
     */
 
-    const SUPABASE_URL = "https://ndiltdoguobelvcdmhms.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_AgCVjaXgVRvooqCphASxZA_YAauoLe4";
+    const SUPABASE_URL = "https://qvmgrchkmmezpwhlfxjv.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_3M-2qrVCnjO9XfjsBCUf6g_l1wSuwVu";
 
-    const OTHER_DATA_BUCKET = "ecotera_home_other_data";
-    const OTHER_DATA_TABLE = "ecotera_home_other_data";
+    const OTHER_DATA_BUCKET = "field-data";
+    const OTHER_DATA_TABLE = "field_data";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -611,7 +611,7 @@
             .from(OTHER_DATA_TABLE)
             .insert({
               user_id: currentUser.id,
-              photo_path: photoPath,
+              file_path: photoPath,
               notes: notes || null,
               latitude: latitude,
               longitude: longitude
