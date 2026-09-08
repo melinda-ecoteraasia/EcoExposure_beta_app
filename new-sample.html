@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EcoExposure™ | New Sample</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
   <style>
     :root {--bg:#f6f8f7;--card:#fff;--text:#1f2933;--muted:#6b7280;--border:#d7ded9;--accent:#0f766e;--accent-dark:#115e59;}
     *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
@@ -23,6 +24,13 @@
     #qrReader{width:100%;min-height:260px;margin-top:12px}.kit-ok{color:#047857;font-weight:700}.kit-error{color:#b91c1c;font-weight:700}
     .camera-btn{margin-top:0}.camera-note{font-size:.82rem;color:var(--muted);margin-top:7px}
     .captured-label{display:none;margin-top:8px;font-size:.86rem;color:#047857;font-weight:700}
+    main{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-around;min-height:80px;padding:10px 4px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.97);border-top:1px solid var(--border);box-shadow:0 -4px 16px rgba(0,22,41,.04);backdrop-filter:blur(12px)}
+    .bottom-nav a{display:flex;flex:1;min-width:0;min-height:48px;max-width:120px;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:4px 2px;border-radius:24px;color:var(--muted);text-decoration:none;font-size:10px;font-weight:700}
+    .bottom-nav a:hover{color:var(--accent)}
+    .bottom-nav a[aria-current="page"]{background:#c7eeea;color:#00504b}
+    .bottom-nav a:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+    .bottom-nav .material-symbols-outlined{font-size:24px;line-height:1}
   </style>
 </head>
 <body>
@@ -135,6 +143,15 @@
       <div id="saveStatus" class="status">No sample saved yet.</div>
     </section>
   </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="index.html"><span class="material-symbols-outlined" aria-hidden="true">home</span><span>Home</span></a>
+    <a href="new-sample.html" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings:'FILL' 1;">add_circle</span><span>Sample</span></a>
+    <a href="my-data.html"><span class="material-symbols-outlined" aria-hidden="true">photo_library</span><span>My Data</span></a>
+    <a href="new_field_data.html"><span class="material-symbols-outlined" aria-hidden="true">edit_note</span><span>Field</span></a>
+    <a href="practice.html"><span class="material-symbols-outlined" aria-hidden="true">science</span><span>Practice</span></a>
+    <a href="learn.html"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span><span>Learn</span></a>
+  </nav>
 
 
   <dialog id="photoDialog">
