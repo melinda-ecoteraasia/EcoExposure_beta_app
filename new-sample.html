@@ -605,7 +605,7 @@
 
       const { error } =
         await supabaseClient.storage
-       .from(currentKit.storage_bucket)
+       .from("sample-images")
           .upload(
             path,
             file,
