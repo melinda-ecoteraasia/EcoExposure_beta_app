@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EcoExposure™ | New Sample</title>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
   <style>
     :root {--bg:#f6f8f7;--card:#fff;--text:#1f2933;--muted:#6b7280;--border:#d7ded9;--accent:#0f766e;--accent-dark:#115e59;}
     *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
@@ -31,19 +30,29 @@
     .bottom-nav a[aria-current="page"]{background:#c7eeea;color:#00504b}
     .bottom-nav a:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
     .bottom-nav .material-symbols-outlined{font-size:24px;line-height:1}
-  </style>
+    .page-title{display:flex;align-items:center;gap:12px}
+    .page-title h1{margin:0}
+    .help-button{flex:0 0 44px;width:44px;height:44px;margin:0;padding:0;border:1px solid rgba(255,255,255,.6);border-radius:50%;background:transparent;color:#fff;font-size:25px}
+    .help-button:focus-visible{outline:3px solid #72f7ed;outline-offset:3px}
+    #sampleHelpDialog{max-height:calc(100dvh - 32px);overflow:auto}
+    #sampleHelpDialog li{margin:0 0 12px;line-height:1.5}
+    #sampleHelpDialog p{line-height:1.5}
+    #sampleHelpDialog a{color:var(--accent);font-weight:700}
+  
+    .assay-warning{margin:16px 0;padding:16px 18px;background:#fff4e5;border:2px solid #b55c08;border-radius:12px;color:#613000;line-height:1.55}
+    .assay-warning>strong{display:block;font-size:1.05rem;letter-spacing:.02em}
+    .assay-warning p{margin:8px 0 0;line-height:1.55}
+    .context-help{display:inline-block;font-size:.85rem;font-weight:600;color:#0f766e;margin:4px 0 8px}
+</style>
 </head>
 <body>
   <header>
-    <h1>New EcoExposure Sample</h1>
+    <div class="page-title"><h1>New EcoExposure Sample</h1><button type="button" class="help-button" aria-label="How New Sample works" aria-haspopup="dialog" onclick="document.getElementById('sampleHelpDialog').showModal()">ⓘ</button></div>
     <p>Enter sample details, add photos, and save your sample.</p>
   </header>
 
   <main>
-    <div class="top-nav">
-      <a href="./index.html">← Home</a>
-      <a href="./my-samples.html">My Samples →</a>
-    </div>
+    
 
     <section>
       <h2>Sample Info</h2>
@@ -75,6 +84,8 @@
       <label for="sampleID">Sample ID</label>
       <input id="sampleID" placeholder="Example: Kitchen Tap 01" />
 
+      <aside class="assay-warning" aria-label="Important assay instruction"><strong>DO NOT STIR, SWIRL, OR MIX</strong><p>Zero-shear matters: mixing disrupts the assay. If powder clumps remain at the surface, gently poke only those surface clumps. Do not stir or mix the liquid.</p></aside>
+      <a class="context-help" href="learn.html#run-test">Test steps and zero-shear guidance →</a>
       <label>Capture Stage</label>
 
       <label>
@@ -97,7 +108,7 @@
     </section>
 
     <section>
-      <h2>Images</h2>
+      <h2>Images</h2><div class="info-box"><strong>Shadows or uneven light?</strong> Pop open the photo box and use it. Check the preview before saving. <a class="context-help" href="learn.html#photo-guide">Photo tips →</a></div>
       <div class="info-box">Photos must be taken live in the app. Existing photos cannot be selected from the device.</div>
 
       <div class="image-slot">
@@ -145,14 +156,31 @@
   </main>
 
   <nav class="bottom-nav" aria-label="Main navigation">
-    <a href="index.html"><span class="material-symbols-outlined" aria-hidden="true">home</span><span>Home</span></a>
-    <a href="new-sample.html" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings:'FILL' 1;">add_circle</span><span>Sample</span></a>
-    <a href="my-data.html"><span class="material-symbols-outlined" aria-hidden="true">photo_library</span><span>My Data</span></a>
-    <a href="new_field_data.html"><span class="material-symbols-outlined" aria-hidden="true">edit_note</span><span>Field</span></a>
-    <a href="practice.html"><span class="material-symbols-outlined" aria-hidden="true">science</span><span>Practice</span></a>
-    <a href="learn.html"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span><span>Learn</span></a>
+    <a href="index.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3z"/></svg><span>Home</span></a>
+    <a href="new-sample.html" aria-current="page"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Sample</span></a>
+    <a href="my-data.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6H2v16h16v-2"/><rect x="6" y="2" width="16" height="16" rx="1"/><circle cx="16" cy="7" r="1"/><path d="m8 15 4-5 3 3 2-2 3 4"/></svg><span>My Data</span></a>
+    <a href="new_field_data.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h12M3 9h10M3 13h7m3 4 6-6 3 3-6 6-4 1z"/></svg><span>Field</span></a>
+    <a href="practice.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6m-5 0v7l-6 9q-1 2 2 2h12q3 0 2-2l-6-9V3M8 15h8"/></svg><span>Practice</span></a>
+    <a href="learn.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16M12 5C9 2 4 2 2 3v16c3-1 7-1 10 2 3-3 7-3 10-2V3c-2-1-7-1-10 2zM5 7h4M5 11h4M15 7h4M15 11h4"/></svg><span>Learn</span></a>
   </nav>
 
+
+  <dialog id="sampleHelpDialog" aria-labelledby="sampleHelpTitle">
+    <div class="dialog-inner">
+      <h2 id="sampleHelpTitle">How New Sample works</h2>
+      <p>Use this page to save an EcoExposure sample with a registered kit.</p><aside class="assay-warning" aria-label="Important assay instruction"><strong>DO NOT STIR, SWIRL, OR MIX</strong><p>Zero-shear matters: mixing disrupts the assay. If powder clumps remain at the surface, gently poke only those surface clumps. Do not stir or mix the liquid.</p></aside>
+      <ol>
+        <li><strong>Verify a kit.</strong> Scan inside the app or enter the printed manual code. Wait for the verified message.</li>
+        <li><strong>Match the stage.</strong> Use PRE before reagent or POST after reaction, following your kit instructions for preparation and timing.</li>
+        <li><strong>Add details.</strong> Enter your name and sample label. Add notes and location; use the same label for matching PRE/POST observations.</li>
+        <li><strong>Take photos.</strong> Use the in-app camera and check the preview. For shadows or uneven lighting, pop open the photo box. At least one photo is required.</li>
+        <li><strong>Save and review.</strong> Wait for confirmation, then check My Data. Each successful save uses one submission from that code.</li>
+      </ol>
+      <p>For notes or a field photo without a kit, use <a href="new_field_data.html">Field</a>. To rehearse without saving scientific data or using a kit submission, use <a href="practice.html">Practice</a>.</p>
+      <p><a href="learn.html">Open the Learn guide</a></p>
+      <form method="dialog"><button type="submit">Got it</button></form>
+    </div>
+  </dialog>
 
   <dialog id="photoDialog">
     <div class="dialog-inner">
