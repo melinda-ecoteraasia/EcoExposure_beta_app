@@ -126,6 +126,10 @@
       scroll-snap-align: center;
     }
 
+    .asia-priority {
+      order: -1;
+    }
+
     ::-webkit-scrollbar {
       display: none;
     }
@@ -144,7 +148,7 @@
   <header class="bg-white/80 dark:bg-surface-container-low/80 docked full-width top-0 sticky backdrop-blur-xl border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex justify-between items-center px-gutter w-full z-50 h-16">
     <div class="flex items-center gap-sm">
       <span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="water_drop">water_drop</span>
-      <h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed">ecotera asia</h1>
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed">ecotera home</h1>
     </div>
 
     <div class="flex items-center">
@@ -197,9 +201,9 @@
 
     <!-- Primary Actions -->
     <section class="px-gutter mb-xl">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-5xl">
 
-        <!-- New Sample -->
+        <!-- New MP/NP Sample -->
         <a href="new-sample.html"
            class="group bg-secondary text-white rounded-xl p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200">
           <div class="flex items-center justify-between mb-4">
@@ -208,8 +212,8 @@
             </div>
             <span class="material-symbols-outlined opacity-70 group-hover:translate-x-1 transition-transform">arrow_forward</span>
           </div>
-          <h3 class="text-lg font-bold">New Sample</h3>
-          <p class="text-sm text-white/80 mt-1">Start an EcoExposure test</p>
+          <h3 class="text-lg font-bold">New MP/NP Sample</h3>
+          <p class="text-sm text-white/80 mt-1">Start a microplastic screening test</p>
         </a>
 
         <!-- My Data -->
@@ -236,6 +240,19 @@
           </div>
           <h3 class="text-lg font-bold text-primary">New Field Data</h3>
           <p class="text-sm text-on-surface-variant mt-1">Record a field observation</p>
+        </a>
+
+        <!-- Other Water Tests -->
+        <a href="other-water-tests.html"
+           class="group bg-white border border-outline-variant rounded-xl p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-xl bg-tertiary-fixed/70 flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary-container">water_ec</span>
+            </div>
+            <span class="material-symbols-outlined text-on-surface-variant opacity-60 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+          <h3 class="text-lg font-bold text-primary">Other Water Tests</h3>
+          <p class="text-sm text-on-surface-variant mt-1">Explore developing field assays</p>
         </a>
 
       </div>
@@ -346,7 +363,7 @@
         </div>
       </div>
 
-      <div class="snap-center shrink-0 w-[85vw] md:w-[600px]">
+      <div class="snap-center asia-priority shrink-0 w-[85vw] md:w-[600px]">
         <div class="relative h-[500px] rounded-xl overflow-hidden glass-card shadow-sm">
           <img class="absolute inset-0 w-full h-full object-cover" data-alt="Mount Fuji representing Japan." src="images/mount_fuji_japan_location.png"/>
           <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent"></div>
@@ -358,7 +375,7 @@
         </div>
       </div>
 
-      <div class="snap-center shrink-0 w-[85vw] md:w-[600px]">
+      <div class="snap-center asia-priority shrink-0 w-[85vw] md:w-[600px]">
         <div class="relative h-[500px] rounded-xl overflow-hidden glass-card shadow-sm">
           <img class="absolute inset-0 w-full h-full object-cover" data-alt="Singapore water." src="images/singapore_singapore_location.jpg"/>
           <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent"></div>
@@ -370,7 +387,7 @@
         </div>
       </div>
 
-      <div class="snap-center shrink-0 w-[85vw] md:w-[600px]">
+      <div class="snap-center asia-priority shrink-0 w-[85vw] md:w-[600px]">
         <div class="relative h-[500px] rounded-xl overflow-hidden glass-card shadow-sm">
           <img class="absolute inset-0 w-full h-full object-cover" data-alt="Manila municipal water." src="images/manila_philippines_location.jpg"/>
           <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent"></div>
