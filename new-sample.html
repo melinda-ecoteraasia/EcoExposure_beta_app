@@ -559,14 +559,14 @@
       const bitmap = await createImageBitmap(blob);
       const TARGET_BYTES = 180 * 1024;
       const MAX_BYTES = 200 * 1024;
-      const MIN_QUALITY = 0.38;
       const MIN_DIMENSION = 480;
       let maxDimension = 1400;
       let quality = 0.78;
       let compressedBlob = null;
+      let format = "image/webp";
 
       try {
-        for (let attempt = 0; attempt < 12; attempt++) {
+        for (let attempt = 0; attempt < 24; attempt++) {
           const scale = Math.min(
             1,
             maxDimension / Math.max(bitmap.width, bitmap.height)
@@ -587,33 +587,42 @@
           ctx.drawImage(bitmap, 0, 0, width, height);
 
           compressedBlob = await new Promise(resolve => {
-            canvas.toBlob(resolve, "image/webp", quality);
+            canvas.toBlob(resolve, format, quality);
           });
 
           if (!compressedBlob) {
             throw new Error("Image compression failed.");
           }
 
-          if (compressedBlob.type !== "image/webp") {
-            throw new Error("This browser could not convert the image to WebP.");
+          // Some browsers return JPEG when asked for WebP. Use the actual
+          // encoded format instead of labeling those bytes as WebP.
+          if (attempt === 0 && compressedBlob.type !== "image/webp") {
+            format = "image/jpeg";
+            if (compressedBlob.type !== format) {
+              compressedBlob = await new Promise(resolve => {
+                canvas.toBlob(resolve, format, quality);
+              });
+              if (!compressedBlob || compressedBlob.type !== format) {
+                throw new Error("This browser could not compress the image.");
+              }
+            }
           }
 
           if (compressedBlob.size <= TARGET_BYTES) {
             break;
           }
 
-          if (quality > MIN_QUALITY) {
-            quality = Math.max(MIN_QUALITY, quality - 0.08);
+          if (quality > 0.48) {
+            quality = Math.max(0.48, quality - 0.10);
+          } else if (maxDimension > MIN_DIMENSION) {
+            maxDimension = Math.max(MIN_DIMENSION, Math.round(maxDimension * 0.8));
+            quality = 0.72;
           } else {
-            maxDimension = Math.max(
-              MIN_DIMENSION,
-              Math.round(maxDimension * 0.82)
-            );
-            quality = 0.66;
+            quality = Math.max(0.25, quality - 0.08);
           }
         }
       } finally {
-        bitmap.close();
+        if (bitmap.close) bitmap.close();
       }
 
       if (!compressedBlob) {
@@ -628,8 +637,8 @@
 
       return new File(
         [compressedBlob],
-        `${baseName}.webp`,
-        { type: "image/webp" }
+        `${baseName}.${format === "image/webp" ? "webp" : "jpg"}`,
+        { type: format }
       );
     }
 
@@ -698,7 +707,8 @@
             file,
             {
               cacheControl: "3600",
-              upsert: false
+              upsert: false,
+              contentType: file.type
             }
           );
 
