@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoExposure™ | Practice Module</title>
-  <style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EcoExposure | Practice MP/NP</title><style>
     :root {--bg:#f6f8f7;--card:#fff;--text:#1f2933;--muted:#6b7280;--border:#d7ded9;--accent:#0f766e;--accent-dark:#115e59;}
     *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
     header{padding:22px 16px;background:linear-gradient(135deg,#0f766e,#164e63);color:#fff} header h1{margin:0 0 6px;font-size:1.45rem} header p{margin:0;font-size:.95rem;opacity:.9}
@@ -23,224 +17,100 @@
     #qrReader{width:100%;min-height:260px;margin-top:12px}.kit-ok{color:#047857;font-weight:700}.kit-error{color:#b91c1c;font-weight:700}
     .camera-btn{margin-top:0}.camera-note{font-size:.82rem;color:var(--muted);margin-top:7px}
     .captured-label{display:none;margin-top:8px;font-size:.86rem;color:#047857;font-weight:700}
-      main{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-around;min-height:80px;padding:10px 4px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.97);border-top:1px solid #d7ded9;box-shadow:0 -4px 16px rgba(0,22,41,.04);backdrop-filter:blur(12px)}
-    .bottom-nav a{display:flex;flex:1;min-width:0;min-height:48px;max-width:120px;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:4px 2px;border-radius:24px;color:#6b7280;text-decoration:none;font-size:10px;font-weight:700}
-    .bottom-nav a:hover{color:#0f766e}
+    main{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-around;min-height:80px;padding:10px 4px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.97);border-top:1px solid var(--border);box-shadow:0 -4px 16px rgba(0,22,41,.04);backdrop-filter:blur(12px)}
+    .bottom-nav a{display:flex;flex:1;min-width:0;min-height:48px;max-width:120px;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:4px 2px;border-radius:24px;color:var(--muted);text-decoration:none;font-size:10px;font-weight:700}
+    .bottom-nav a:hover{color:var(--accent)}
     .bottom-nav a[aria-current="page"]{background:#c7eeea;color:#00504b}
-    .bottom-nav a:focus-visible{outline:3px solid #0f766e;outline-offset:1px}
+    .bottom-nav a:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
     .bottom-nav .material-symbols-outlined{font-size:24px;line-height:1}
-  </style>
-</head>
-<body>
-  <header>
-    <h1>EcoExposure Practice Module</h1>
-    <p><strong>PRACTICE MODE:</strong> Learn the workflow without using a QR code or consuming a real test.</p>
-  </header>
-  <div style="max-width:760px;margin:16px auto 0;padding:0 16px;">
-    <div style="background:#fff7ed;border:1px solid #fdba74;color:#9a3412;border-radius:12px;padding:12px 14px;font-weight:700;">
-      PRACTICE MODE — This page does not submit to the real EcoExposure sample database.
-    </div>
-  </div>
+    .page-title{display:flex;align-items:center;gap:12px}
+    .page-title h1{margin:0}
+    .help-button{flex:0 0 44px;width:44px;height:44px;margin:0;padding:0;border:1px solid rgba(255,255,255,.6);border-radius:50%;background:transparent;color:#fff;font-size:25px}
+    .help-button:focus-visible{outline:3px solid #72f7ed;outline-offset:3px}
+    #sampleHelpDialog{max-height:calc(100dvh - 32px);overflow:auto}
+    #sampleHelpDialog li{margin:0 0 12px;line-height:1.5}
+    #sampleHelpDialog p{line-height:1.5}
+    #sampleHelpDialog a{color:var(--accent);font-weight:700}
+  
+    .assay-warning{margin:16px 0;padding:16px 18px;background:#fff4e5;border:2px solid #b55c08;border-radius:12px;color:#613000;line-height:1.55}
+    .assay-warning>strong{display:block;font-size:1.05rem;letter-spacing:.02em}
+    .assay-warning p{margin:8px 0 0;line-height:1.55}
+    .context-help{display:inline-block;font-size:.85rem;font-weight:600;color:#0f766e;margin:4px 0 8px}
 
-  <main>
-    
-
-    <section>
-      <h2>Camera and app practice</h2>
-      <div class="info-box"><strong>No EcoExposure reagent.</strong> Use a little sugar or fine sand in water as a stand-in for camera practice. This is not an assay and produces no EcoExposure reading. Any PRE/POST choices here are only a form exercise.</div>
-      <p><a href="learn.html#photo-guide" style="color:#0f766e;font-weight:700;">Photo tips and when to use the photo box →</a></p>
-      <h2>Practice details</h2>
-
-      <label for="userName">User Name</label>
-      <input id="userName" placeholder="Your name" />
-
-      <label for="location">Location</label>
-      <input id="location" placeholder="Site, city, or notes" />
-
-      <label for="waterType">Water Type</label>
-      <select id="waterType">
-        <option>Tap</option>
-        <option>River</option>
-        <option>Lake</option>
-        <option>Bay</option>
-        <option>Ocean</option>
-        <option>Brackish</option>
-        <option selected>Other</option>
-      </select>
-      <label>Practice Access</label>
-      <div id="qrStatus" class="info-box"><strong>Practice Mode:</strong> No QR code is required and no kit submissions will be used.</div>
-
-      <button type="button" onclick="captureGPS()">Capture GPS Location</button>
-      <div id="gpsStatus" class="info-box">No GPS location captured yet.</div>
-
-      <label for="sampleID">Sample ID</label>
-      <input id="sampleID" placeholder="Example: Kitchen Tap 01" />
-
-      <label>Capture Stage</label>
-
-      <label>
-        <input type="radio" name="captureStage" value="pre_reagent">
-        Pre-Reagent
-      </label>
-
-      <label>
-        <input type="radio" name="captureStage" value="post_reaction">
-        Post-Reaction
-      </label>
-
-      <label>
-        <input type="radio" name="captureStage" value="other">
-        Other
-      </label>
-
-      <label for="notes">Notes</label>
-      <textarea id="notes" placeholder="Sample conditions or visual observations..."></textarea>
-    </section>
-
-    <section>
-      <h2>Images</h2>
-      <div class="info-box">Practice using the same live camera workflow as a real EcoExposure sample. If you see shadows or uneven lighting, pop open the photo box and use it.</div>
-
-      <div class="image-slot">
-        <strong>Top View - White Background</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('topImage','topPreview','Top View - White Background')">📷 Take Photo</button>
-        <div id="topImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="topPreview" class="preview" alt="Top view preview" />
-      </div>
-
-      <div class="image-slot">
-        <strong>Top View – Grid Background</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('topGridImage','topGridPreview','Top View – Grid Background')">📷 Take Photo</button>
-        <div id="topGridImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="topGridPreview" class="preview" alt="Top grid preview" />
-      </div>
-
-      <div class="image-slot">
-        <strong>Side View</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('sideImage','sidePreview','Side View')">📷 Take Photo</button>
-        <div id="sideImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="sidePreview" class="preview" alt="Side view preview" />
-      </div>
-
-      <div class="image-slot">
-        <strong>Close-Up</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('closeUpImage','closeUpPreview','Close-Up')">📷 Take Photo</button>
-        <div id="closeUpImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="closeUpPreview" class="preview" alt="Close-up preview" />
-      </div>
-
-      <div class="image-slot">
-        <strong>Other</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('otherImage','otherPreview','Other')">📷 Take Photo</button>
-        <div id="otherImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="otherPreview" class="preview" alt="Other preview" />
-      </div>
-    </section>
-
-    <section>
-      <h2>Complete Practice</h2>
-      <button type="button" onclick="completePractice()">Complete Practice</button>
-      <button class="secondary" type="button" onclick="clearDraft()">Clear Current Draft</button>
-      <div id="saveStatus" class="status">Practice not completed yet.</div>
-    </section>
-  </main>
-
-  <nav class="bottom-nav" aria-label="Main navigation">
-    <a href="index.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3z"/></svg><span>Home</span></a>
-    <a href="new-sample.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Sample</span></a>
-    <a href="my-data.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6H2v16h16v-2"/><rect x="6" y="2" width="16" height="16" rx="1"/><circle cx="16" cy="7" r="1"/><path d="m8 15 4-5 3 3 2-2 3 4"/></svg><span>My Data</span></a>
-    <a href="new_field_data.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h12M3 9h10M3 13h7m3 4 6-6 3 3-6 6-4 1z"/></svg><span>Field</span></a>
-    <a href="practice.html" aria-current="page"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6m-5 0v7l-6 9q-1 2 2 2h12q3 0 2-2l-6-9V3M8 15h8"/></svg><span>Practice</span></a>
-    <a href="learn.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16M12 5C9 2 4 2 2 3v16c3-1 7-1 10 2 3-3 7-3 10-2V3c-2-1-7-1-10 2zM5 7h4M5 11h4M15 7h4M15 11h4"/></svg><span>Learn</span></a>
+[hidden]{display:none!important}button:disabled{opacity:.5;cursor:not-allowed}p{line-height:1.55}.practice-label{display:inline-block;background:#ccfbf1;color:#115e59;padding:6px 12px;border-radius:20px;font-size:.85rem;font-weight:700}header .practice-label{margin-bottom:10px}input[type=checkbox]{width:auto}a{color:var(--accent)}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #14b8a6;outline-offset:3px}.progress{font-weight:700;color:var(--accent);margin:0 0 14px}.step-actions{display:flex;gap:12px}.step-actions button{flex:1}.qr-example{max-width:210px;width:100%;display:block;margin:auto}.guide{display:block;padding:12px;border:1px solid var(--border);border-radius:10px;text-decoration:none;font-weight:700}.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.review-grid figure{margin:0}.review-grid img{width:100%;border-radius:10px}.review-grid figcaption{font-size:.85rem;margin-top:5px}.status{min-height:1.4em}h2{font-size:1.2rem}.practice-panel:focus{outline:none}.camera-note{line-height:1.5}#qrReader{min-height:0}main{padding-top:20px}details{margin:14px 0}summary{cursor:pointer;font-weight:700}#photoCameraStatus{padding:6px 0}@media(min-width:650px){.photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
+</style></head><body><header><span class="practice-label">PRACTICE MODE · NO TEST CREDITS</span><div class="page-title"><h1>Practice MP/NP</h1><button class="help-button" type="button" aria-label="Practice help" onclick="document.getElementById('practiceHelp').showModal()">ⓘ</button></div><p>Rehearse the sample workflow before using a test packet.</p></header><main>
+<section><h2>Before you begin</h2><p>Use a glass beaker and the grid / white sheet. Practice photos stay in this page only and are cleared when you restart or leave. Nothing is uploaded or added to My Data.</p><a id="walkthroughLink" class="guide" hidden target="_blank" rel="noopener noreferrer">Watch the walkthrough video</a><p id="videoPending" class="camera-note">A video walkthrough will be available here. You can use the guided steps below now.</p><a class="guide" href="learn.html#photo-guide">Open photo and lighting tips</a></section>
+<p id="progress" class="progress" role="status"></p>
+<section class="practice-panel" id="step0" tabindex="-1"><h2>1. Try a practice QR</h2><p>Real test codes identify your sample. This demo code teaches the scanning step without checking a kit or consuming a credit.</p><details><summary>Show the practice QR</summary><img class="qr-example" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAEiCAIAAADS3EjhAAAEgklEQVR4nO3dQW7jMBAAQWux//+yct2TsADTJilW3WM7UhoTwAPquu/7A5T+pK8OyAy+wTSDnMwgJzPIyQxyMoOczCAnM8jJDHIyg5zMICczyMkMcjKDnMwgJzPIyQxyMoOczCAnM8jJDHIyg5zMICczyMkMcjKDnMwgJzPIyQxyMoOczCAnM8jJDHIyg5zMICczyMkMcjKD3N/PJNd1fd7lvu8p1+r5fbuf3dGd3aNnphnkZAY5mUFOZpCTGeRkBjmZQU5mkJMZvHcLZM1v65/N2oro9jxGuEf/zzSDnMwgJzPIyQxyMoOczCAnM8jJDHIyg1O3QGZtY+x4nseadrxHHdMMcjKDnMwgJzPIyQxyMoOczCAnM8jJDHJbboHsaNZ5HrNOCuFfphnkZAY5mUFOZpCTGeRkBjmZQU5mkJMZ5GyBvJw9jxWYZpCTGeRkBjmZQU5mkJMZ5GQGOZlBTmaQ23IL5LTNhu5pMt2VPO0ePTPNICczyMkMcjKDnMwgJzPIyQxyMoOczODULZDn3YUddZscs6z5qdZkmkFOZpCTGeRkBjmZQU5mkJMZ5GQGOZnBe7dAnBWx/nV2j36LaQY5mUFOZpCTGeRkBjmZQU5mkJMZ5GQG790C6U6S2PFcjRGzfqNuR+Sa9BSbjmkGOZlBTmaQkxnkZAY5mUFOZpCTGeRkBqc+Eabb5Bh55ZH9g1lbL2u6Bq5Gd/c7phnkZAY5mUFOZpCTGeRkBjmZQU5mkJMZ5K7TdghmnRQy6+SMHa/GNbCLs+Y5IqYZ5GQGOZlBTmaQkxnkZAY5mUFOZpCTGZz6RJiRb+tnnSOy49XofnbWWSD3kltNphnkZAY5mUFOZpCTGeRkBjmZQU5mkJMZ5LY8C2REd87EmqdudE47z2OEaQY5mUFOZpCTGeRkBjmZQU5mkJMZ5GQGueO2QGaZtRWx5ubKveSTaDqmGeRkBjmZQU5mkJMZ5GQGOZlBTmaQkxmc+kSYHa25T7Pmp7qWfC5PxzSDnMwgJzPIyQxyMoOczCAnM5AZ7M80g/dugez4TX+3uTLrtI9nz++74z26nQUCb+WfRsjJDHIyg5zMICczyMkMcjKDnMzg1C2QZ+97YsisJ8LM2i/p7sKauymmGeRkBjmZQU5mkJMZ5GQGOZlBTmaQkxnkttwC2dFp+yUjrtc9L8Y0g5zMICczyMkMcjKDnMwgJzPIyQxyMoOcLZAv6TYbZr3yyL7FteFnHmGaQU5mkJMZ5GQGOZlBTmaQkxnkZAY5mUFuyy2QNc976LzvxI4d33eEaQY5mUFOZpCTGeRkBjmZQU5mkJMZ5GQGp26B7PhN/4hZ52rM+lR3tsez5l+OaQY5mUFOZpCTGeRkBjmZQU5mkJMZ5GQGueu0czXg+0wzyMkMcjKDnMwgJzPIyQxyMoOczCAnM8jJDHIyg5zMICczyMkMcjKDnMwgJzPIyQxyMoOczCAnM8jJDHIyg5zMICczyMkMcjKDnMwgJzPIyQxyMoOczCAnM8jJDHIyg5zMICczyMkMcjKDT+0Hh3EHT8GA4YQAAAAASUVORK5CYII=" alt="Practice QR: ECOEXPOSURE:PRACTICE:01"><p>Scan this from another screen or a printout. On one phone, enter the practice code below.</p></details><button type="button" onclick="scanPracticeQR()">Scan Practice QR</button><div id="qrReader"></div><label for="practiceCode">Practice code</label><input id="practiceCode" value="PRACTICE-01" autocomplete="off" autocapitalize="characters"><button type="button" class="secondary" onclick="verifyPracticeCode()">Use practice code</button><p id="qrStatus" class="status" role="status">Only the demo code is accepted here. Keep real kit codes for the test module.</p><div class="step-actions"><button id="startPre" type="button" onclick="goStep(1)" disabled>Next: PRE photos</button></div></section>
+<section class="practice-panel" id="step1" hidden tabindex="-1"><h2>2. Take PRE photos</h2><p>Use water before adding practice powder. Take one top-down photo on each background. Pop open the photo box if lighting is uneven. Too dark? Fold its top flaps outward.</p><div class="photo-pair"><div class="image-slot"><strong>Grid background</strong><p>Keep the full beaker rim visible. Place the beaker on the grid sheet.</p><button type="button" class="camera-btn" onclick="openPhotoCamera('pre_grid','pre_gridPreview','PRE — Grid background')">Take / retake photo</button><div id="pre_gridCaptured" class="captured-label">Photo captured</div><img id="pre_gridPreview" class="preview" alt="PRE Grid background practice preview"></div><div class="image-slot"><strong>White background</strong><p>Keep the full beaker rim visible. Flip the sheet to its white side.</p><button type="button" class="camera-btn" onclick="openPhotoCamera('pre_white','pre_whitePreview','PRE — White background')">Take / retake photo</button><div id="pre_whiteCaptured" class="captured-label">Photo captured</div><img id="pre_whitePreview" class="preview" alt="PRE White background practice preview"></div></div><div class="step-actions"><button class="secondary" type="button" onclick="goStep(0)">Back</button><button type="button" onclick="advancePhotos('pre',2)">Next: practice powder</button></div></section>
+<section class="practice-panel" id="step2" hidden tabindex="-1"><h2>3. Optional practice powder</h2><p>To rehearse the handling step, use the supplied Demo Reagent or a little turmeric powder as directed for practice. Keep the MP/NP test reagent for real samples.</p><div class="info-box"><strong>Practice only.</strong> This exercise does not detect microplastics or nanoplastics. You can also continue using water alone.</div><p>For a real test, follow the kit instruction to avoid stirring or shaking after adding reagent.</p><p><strong>No reaction timer in Practice.</strong> Tap Next when you are ready to rehearse POST photos.</p><div class="step-actions"><button class="secondary" type="button" onclick="goStep(1)">Back</button><button type="button" onclick="goStep(3)">Next: POST photos</button></div></section>
+<section class="practice-panel" id="step3" hidden tabindex="-1"><h2>4. Take POST photos</h2><p>These belong to the same practice sample. Repeat both backgrounds, matching your PRE lighting, phone position and photo-box flap position.</p><div class="photo-pair"><div class="image-slot"><strong>Grid background</strong><p>Keep the full beaker rim visible. Place the beaker on the grid sheet.</p><button type="button" class="camera-btn" onclick="openPhotoCamera('post_grid','post_gridPreview','POST — Grid background')">Take / retake photo</button><div id="post_gridCaptured" class="captured-label">Photo captured</div><img id="post_gridPreview" class="preview" alt="POST Grid background practice preview"></div><div class="image-slot"><strong>White background</strong><p>Keep the full beaker rim visible. Flip the sheet to its white side.</p><button type="button" class="camera-btn" onclick="openPhotoCamera('post_white','post_whitePreview','POST — White background')">Take / retake photo</button><div id="post_whiteCaptured" class="captured-label">Photo captured</div><img id="post_whitePreview" class="preview" alt="POST White background practice preview"></div></div><div class="step-actions"><button class="secondary" type="button" onclick="goStep(2)">Back</button><button type="button" onclick="advancePhotos('post',4)">Finish and review</button></div></section>
+<section class="practice-panel" id="step4" hidden tabindex="-1"><h2>Practice complete</h2><p>You rehearsed a matching PRE/POST photo set. No test credit was used.</p><div id="review" class="review-grid"></div><div class="info-box"><strong>Example result: Practice complete</strong><p>This is a workflow demonstration, not an analysis of your water. No particle concentration or detection result is calculated from these photos.</p></div><details><summary>What to check in your photos</summary><p>Is the full rim visible? Are the photos in focus? Is the white background evenly lit? Do PRE and POST use the same view and background?</p></details><button type="button" class="secondary" onclick="goStep(3)">Back / retake photos</button><button type="button" onclick="restartPractice()">Restart practice</button><p><a href="new-sample.html">Start a real MP/NP sample</a> · <a href="index.html">Return Home</a></p></section>
+<p id="flowStatus" class="status" role="alert"></p></main><nav class="bottom-nav" aria-label="Main navigation">
+    <a href="index.html"><svg viewbox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3z"></path></svg><span>Home</span></a>
+    <a href="new-sample.html"><svg viewbox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Sample</span></a>
+    <a href="my-data.html"><svg viewbox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6H2v16h16v-2"></path><rect x="6" y="2" width="16" height="16" rx="1"></rect><circle cx="16" cy="7" r="1"></circle><path d="m8 15 4-5 3 3 2-2 3 4"></path></svg><span>My Data</span></a>
+    <a href="new_field_data.html"><svg viewbox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h12M3 9h10M3 13h7m3 4 6-6 3 3-6 6-4 1z"></path></svg><span>Field</span></a>
+    <a href="practice.html" aria-current="page"><svg viewbox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6m-5 0v7l-6 9q-1 2 2 2h12q3 0 2-2l-6-9V3M8 15h8"></path></svg><span>Practice</span></a>
+    <a href="learn.html"><svg viewbox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16M12 5C9 2 4 2 2 3v16c3-1 7-1 10 2 3-3 7-3 10-2V3c-2-1-7-1-10 2zM5 7h4M5 11h4M15 7h4M15 11h4"></path></svg><span>Learn</span></a>
   </nav>
 
 
-  <dialog id="photoDialog">
-    <div class="dialog-inner">
-      <h2 id="photoDialogTitle">Take Photo</h2>
-      <video id="photoCameraPreview" autoplay playsinline muted style="width:100%;max-height:65vh;background:#000;border-radius:12px;"></video>
-      <div id="photoCameraStatus" class="status">Opening camera...</div>
-      <div class="dialog-actions">
-        <button type="button" onclick="takeLivePhoto()">Take Photo</button>
-        <button type="button" class="secondary" onclick="closePhotoCamera()">Cancel</button>
-      </div>
-    </div>
-  </dialog>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
-  <script>
-	const SUPABASE_URL = "https://qvmgrchkmmezpwhlfxjv.supabase.co";
-	const SUPABASE_KEY = "sb_publishable_3M-2qrVCnjO9XfjsBCUf6g_l1wSuwVu";
-
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-    let latitude = null,
-        longitude = null,
-        currentUser = null,
-        photoStream = null,
-        activePhotoSlot = null,
-        activePhotoPreview = null;
-
-    const capturedPhotos = {};
-
-    const imageSlots = {
-      topImage: "top",
-      topGridImage: "top_grid",
-      sideImage: "side",
-      closeUpImage: "closeup",
-      otherImage: "other"
-    };
-
-    async function requireLogin() {
-      const { data, error } = await supabaseClient.auth.getUser();
-
-      if (error || !data.user) {
-        window.location.replace("login.html");
-        return;
-      }
-
-      currentUser = data.user;
-    }
-
-    function captureGPS() {
-      const box =
-        document.getElementById("gpsStatus");
-
-      if (!navigator.geolocation) {
-        box.textContent =
-          "GPS is not supported in this browser.";
-        return;
-      }
-
-      box.textContent =
-        "Requesting GPS location...";
-
-      navigator.geolocation.getCurrentPosition(
-        p => {
-          latitude = p.coords.latitude;
-          longitude = p.coords.longitude;
-
-          box.textContent =
-            `Location captured: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-        },
-
-        e => {
-          box.textContent =
-            `GPS error: ${e.message}`;
-        },
-
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
-    }
-
+<dialog id="practiceHelp" aria-labelledby="practiceHelpTitle"><div class="dialog-inner"><h2 id="practiceHelpTitle">How Practice works</h2><p>Use the practice code, take PRE photos, optionally add practice powder, then take POST photos. Both grid and white backgrounds are required at each photo step.</p><p>No login, kit verification, database saves or reaction timer is involved. Photos stay in memory until you restart or leave.</p><form method="dialog"><button>Got it</button></form></div></dialog>
+<dialog id="photoDialog" aria-labelledby="photoDialogTitle"><div class="dialog-inner"><h2 id="photoDialogTitle">Take Photo</h2><video id="photoCameraPreview" autoplay playsinline muted style="width:100%;max-height:60vh;background:#000;border-radius:12px"></video><div id="photoCameraStatus" class="status" role="status">Opening camera...</div><div class="dialog-actions"><button type="button" onclick="takeLivePhoto()">Take Photo</button><button type="button" class="secondary" onclick="closePhotoCamera()">Cancel</button></div></div></dialog>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script><script>
+// Add the hosted walkthrough URL here when ready. Empty means no broken video link.
+const WALKTHROUGH_VIDEO_URL = "";
+let photoStream=null, activePhotoSlot=null, activePhotoPreview=null, cameraGeneration=0;
+let qrScanner=null, qrVerified=false, step=0, qrStarting=false;
+const capturedPhotos={};
+const expectedSlots=['pre_grid','pre_white','post_grid','post_white'];
+const titles=['Practice QR','PRE photos','Practice powder','POST photos','Review'];
+if(WALKTHROUGH_VIDEO_URL){try{const u=new URL(WALKTHROUGH_VIDEO_URL);if(u.protocol==='https:'){const a=document.getElementById('walkthroughLink');a.href=u.href;a.hidden=false;document.getElementById('videoPending').hidden=true;}}catch(e){}}
+function goStep(n){
+ if(n<0||n>4)return;
+ if(n>0&&!qrVerified)return;
+ stopPracticeScanner();closePhotoCamera();
+ document.querySelectorAll('.practice-panel').forEach((p,i)=>p.hidden=i!==n);
+ step=n;document.getElementById('flowStatus').textContent='';
+ document.getElementById('progress').textContent=`Step ${n+1} of 5 · ${titles[n]}`;
+ if(n===4)renderReview();document.getElementById('step'+n).focus();
+}
+function acceptPracticeCode(raw){
+ const code=String(raw||'').trim().toUpperCase();
+ if(!['PRACTICE-01','ECOEXPOSURE:PRACTICE:01'].includes(code)){
+  document.getElementById('qrStatus').textContent='That is not the practice code. Use PRACTICE-01. Real kit codes are not checked or used here.';return false;
+ }
+ qrVerified=true;document.getElementById('startPre').disabled=false;
+ document.getElementById('qrStatus').textContent='Practice sample 01 ready. No kit or test credit was used.';return true;
+}
+function verifyPracticeCode(){acceptPracticeCode(document.getElementById('practiceCode').value);}
+async function scanPracticeQR(){
+ if(qrScanner||qrStarting)return;qrStarting=true;
+ try{
+  if(!window.Html5Qrcode)throw new Error('Scanner unavailable');
+  qrScanner=new Html5Qrcode('qrReader');
+  await qrScanner.start({facingMode:'environment'},{fps:10,qrbox:{width:200,height:200}},raw=>{if(acceptPracticeCode(raw))stopPracticeScanner();},()=>{});
+  if(step!==0)await stopPracticeScanner();
+ }catch(e){document.getElementById('qrStatus').textContent='Scanner unavailable. Enter PRACTICE-01 below to continue.';await stopPracticeScanner();}
+ finally{qrStarting=false;}
+}
+async function stopPracticeScanner(){const scanner=qrScanner;if(!scanner)return;qrScanner=null;try{if(scanner.isScanning)await scanner.stop();await scanner.clear();}catch(e){}}
+function advancePhotos(stage,next){
+ if(!['grid','white'].every(bg=>capturedPhotos[stage+'_'+bg])){document.getElementById('flowStatus').textContent='Take both the grid and white-background photos before continuing.';return;}
+ goStep(next);
+}
+function renderReview(){
+ const box=document.getElementById('review');box.replaceChildren();
+ expectedSlots.forEach(key=>{const src=document.getElementById(key+'Preview').src;if(!src)return;const f=document.createElement('figure'),im=document.createElement('img'),cap=document.createElement('figcaption');im.src=src;im.alt=key.replace('_',' ')+' practice photo';cap.textContent=key.replace('_',' · ').toUpperCase();f.append(im,cap);box.append(f);});
+}
+function restartPractice(){
+ stopPracticeScanner();closePhotoCamera();document.getElementById('review').replaceChildren();
+ expectedSlots.forEach(key=>{delete capturedPhotos[key];const im=document.getElementById(key+'Preview');if(im.dataset.objectUrl)URL.revokeObjectURL(im.dataset.objectUrl);delete im.dataset.objectUrl;im.removeAttribute('src');im.style.display='none';document.getElementById(key+'Captured').style.display='none';});
+ qrVerified=false;document.getElementById('startPre').disabled=true;document.getElementById('practiceCode').value='PRACTICE-01';document.getElementById('qrStatus').textContent='Practice reset. Use the demo code to begin again.';goStep(0);
+}
     async function openPhotoCamera(slotID, previewID, title) {
       activePhotoSlot = slotID;
       activePhotoPreview = previewID;
@@ -251,10 +121,11 @@
 
       document.getElementById("photoDialogTitle").textContent = title;
       status.textContent = "Opening camera...";
+      const cameraRequest = ++cameraGeneration;
       dialog.showModal();
 
       try {
-        photoStream = await navigator.mediaDevices.getUserMedia({
+        const newStream = await navigator.mediaDevices.getUserMedia({
           video: {
             facingMode: { ideal: "environment" },
             width: { ideal: 1920 },
@@ -263,6 +134,8 @@
           audio: false
         });
 
+        if (cameraRequest !== cameraGeneration || !dialog.open) { newStream.getTracks().forEach(t => t.stop()); return; }
+        photoStream = newStream;
         video.srcObject = photoStream;
         await video.play();
         status.textContent = "Position the sample, then tap Take Photo.";
@@ -284,6 +157,7 @@
     }
 
     function closePhotoCamera() {
+      cameraGeneration++;
       stopPhotoStream();
 
       const dialog = document.getElementById("photoDialog");
@@ -318,6 +192,7 @@
         return;
       }
 
+      if (!activePhotoSlot || !document.getElementById("photoDialog").open) return;
       capturedPhotos[activePhotoSlot] = blob;
 
       const preview = document.getElementById(activePhotoPreview);
@@ -340,197 +215,10 @@
       activePhotoPreview = null;
     }
 
-    async function compressImage(blob, baseName) {
-      const bitmap = await createImageBitmap(blob);
-      const MAX_DIMENSION = 1400;
 
-      const scale = Math.min(
-        1,
-        MAX_DIMENSION / Math.max(bitmap.width, bitmap.height)
-      );
-
-      const width = Math.round(bitmap.width * scale);
-      const height = Math.round(bitmap.height * scale);
-
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(bitmap, 0, 0, width, height);
-
-      const compressedBlob = await new Promise(resolve => {
-        canvas.toBlob(resolve, "image/webp", 0.72);
-      });
-
-      bitmap.close();
-
-      if (!compressedBlob) {
-        throw new Error("Image compression failed.");
-      }
-
-      return new File(
-        [compressedBlob],
-        `${baseName}.webp`,
-        { type: "image/webp" }
-      );
-    }
-
-    function sanitizeForFilename(input) {
-      return String(input || "")
-        .trim()
-        .replace(/\s+/g, "-")
-        .replace(/[\\/:,]/g, "-")
-        .replace(/[^a-zA-Z0-9._-]/g, "");
-    }
-
-    function timestampString() {
-      const d = new Date();
-
-      const p =
-        v => String(v).padStart(2, "0");
-
-      return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}`;
-    }
-
-    function filenameFor(slot, file) {
-      const u =
-        sanitizeForFilename(
-          document.getElementById("userName").value ||
-          "UnknownUser"
-        );
-
-      const w =
-        sanitizeForFilename(
-          document.getElementById("waterType").value ||
-          "Other"
-        );
-
-      const s =
-        sanitizeForFilename(
-          document.getElementById("sampleID").value ||
-          "UnknownSample"
-        );
-
-      const ext =
-        (file.name.split(".").pop() || "jpg").toLowerCase();
-
-      return `EcoExposure_${slot}_${u}_${w}_${s}_${timestampString()}.${ext}`;
-    }
-
-    async function uploadOneImage(slotID, slot) {
-      const originalBlob = capturedPhotos[slotID] || null;
-
-      if (!originalBlob) {
-        return null;
-      }
-
-      const file = await compressImage(
-        originalBlob,
-        `EcoExposure_${slot}_${timestampString()}`
-      );
-
-      const path =
-        `${currentUser.id}/${filenameFor(slot,file)}`;
-
-      const { error } =
-        await supabaseClient.storage
-          .from(STORAGE_BUCKET)
-          .upload(
-            path,
-            file,
-            {
-              cacheControl: "3600",
-              upsert: false
-            }
-          );
-
-      if (error) {
-        throw new Error(
-          `${slot} image upload failed: ${error.message}`
-        );
-      }
-
-      return path;
-    }
-
-    async function completePractice() {
-      const status = document.getElementById("saveStatus");
-
-      if (!currentUser) {
-        await requireLogin();
-      }
-      if (!currentUser) return;
-
-      const userName = document.getElementById("userName").value.trim();
-      const sampleID = document.getElementById("sampleID").value.trim();
-      const captureStage =
-        document.querySelector('input[name="captureStage"]:checked')?.value || "";
-      const hasImage =
-        Object.keys(imageSlots).some(id => Boolean(capturedPhotos[id]));
-
-      if (!userName || !sampleID || !captureStage || !hasImage) {
-        status.textContent =
-          "Practice requires: User Name, Sample ID, Capture Stage, and at least one image.";
-        return;
-      }
-
-      status.textContent =
-        "✅ Practice complete. No QR code was used, no kit submission was consumed, and no practice data was saved to the scientific dataset.";
-    }
-
-    function clearDraft(updateStatus = true) {
-      [
-        "userName",
-        "location",
-        "sampleID",
-        "notes"
-      ].forEach(
-        id =>
-          document.getElementById(id).value = ""
-      );
-
-      document.getElementById("waterType").value =
-        "Other";
-
-      Object.entries({
-        topImage: "topPreview",
-        topGridImage: "topGridPreview",
-        sideImage: "sidePreview",
-        closeUpImage: "closeUpPreview",
-        otherImage: "otherPreview"
-      }).forEach(([i,p]) => {
-        delete capturedPhotos[i];
-
-        const pr = document.getElementById(p);
-        if (pr.dataset.objectUrl) {
-          URL.revokeObjectURL(pr.dataset.objectUrl);
-          delete pr.dataset.objectUrl;
-        }
-
-        pr.style.display = "none";
-        pr.removeAttribute("src");
-
-        const capturedLabel = document.getElementById(i + "Captured");
-        if (capturedLabel) capturedLabel.style.display = "none";
-      });
-
-      latitude = null;
-      longitude = null;
-
-      document.getElementById("gpsStatus").textContent =
-        "No GPS location captured yet.";
-
-      document.getElementById("qrStatus").innerHTML =
-        "<strong>Practice Mode:</strong> No QR code is required and no kit submissions will be used.";
-
-      if (updateStatus) {
-        document.getElementById("saveStatus").textContent =
-          "Practice cleared.";
-      }
-    }
-
-    requireLogin();
-  </script>
-</body>
-</html>
+document.getElementById('photoDialog').addEventListener('cancel',e=>{e.preventDefault();closePhotoCamera();});
+document.getElementById('photoDialog').addEventListener('close',()=>{cameraGeneration++;stopPhotoStream();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){closePhotoCamera();stopPracticeScanner();}});
+window.addEventListener('pagehide',()=>restartPractice());
+goStep(0);
+</script></body></html>
