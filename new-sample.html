@@ -555,15 +555,49 @@
       activePhotoPreview = null;
     }
 
+    // WebP encoding: native on supporting browsers; WebAssembly on Safari.
+    // The external encoder is fetched only when native WebP export is unavailable.
+    let webpEncoderPromise = null;
+
+    async function getWebpEncoder() {
+      if (!webpEncoderPromise) {
+        webpEncoderPromise = import(
+          "https://esm.sh/@jsquash/webp@1.5.0"
+        ).then(module => {
+          if (typeof module.encode !== "function") {
+            throw new Error("WebP encoder did not load correctly.");
+          }
+          return module.encode;
+        }).catch(error => {
+          webpEncoderPromise = null;
+          throw new Error("Could not load WebP encoder: " + error.message);
+        });
+      }
+      return webpEncoderPromise;
+    }
+
+    function isGenuineWebp(header) {
+      // RIFF....WEBP (actual file bytes, not just filename/MIME).
+      return header.length === 12 &&
+        header[0] === 82 && header[1] === 73 &&
+        header[2] === 70 && header[3] === 70 &&
+        header[8] === 87 && header[9] === 69 &&
+        header[10] === 66 && header[11] === 80;
+    }
+
     async function compressImage(blob, baseName) {
-      const bitmap = await createImageBitmap(blob);
-      const TARGET_BYTES = 180 * 1024;
-      const MAX_BYTES = 200 * 1024;
+      const TARGET_BYTES = 180 * 1024; // preserve existing target
+      const MAX_BYTES = 245000;        // below 250 KB (decimal)
       const MIN_DIMENSION = 480;
+      const started = performance.now();
+      const bitmap = await createImageBitmap(blob);
+
       let maxDimension = 1400;
       let quality = 0.78;
-      let compressedBlob = null;
-      let format = "image/webp";
+      let bestBlob = null;
+      let nativeWebpAvailable = true;
+      let wasmEncoder = null;
+      const canvas = document.createElement("canvas");
 
       try {
         for (let attempt = 0; attempt < 24; attempt++) {
@@ -571,75 +605,84 @@
             1,
             maxDimension / Math.max(bitmap.width, bitmap.height)
           );
-
           const width = Math.max(1, Math.round(bitmap.width * scale));
           const height = Math.max(1, Math.round(bitmap.height * scale));
-
-          const canvas = document.createElement("canvas");
           canvas.width = width;
           canvas.height = height;
-
           const ctx = canvas.getContext("2d");
-          if (!ctx) {
-            throw new Error("Image compression is not supported by this browser.");
-          }
-
+          if (!ctx) throw new Error("Image canvas unavailable.");
           ctx.drawImage(bitmap, 0, 0, width, height);
 
-          compressedBlob = await new Promise(resolve => {
-            canvas.toBlob(resolve, format, quality);
-          });
+          let compressedBlob = null;
 
-          if (!compressedBlob) {
-            throw new Error("Image compression failed.");
-          }
-
-          // Some browsers return JPEG when asked for WebP. Use the actual
-          // encoded format instead of labeling those bytes as WebP.
-          if (attempt === 0 && compressedBlob.type !== "image/webp") {
-            format = "image/jpeg";
-            if (compressedBlob.type !== format) {
-              compressedBlob = await new Promise(resolve => {
-                canvas.toBlob(resolve, format, quality);
+          if (nativeWebpAvailable) {
+            const nativeBlob = await new Promise(resolve => {
+              canvas.toBlob(resolve, "image/webp", quality);
+            });
+            if (nativeBlob?.type === "image/webp") {
+              compressedBlob = nativeBlob;
+            } else {
+              nativeWebpAvailable = false;
+              console.info("Native WebP unavailable; using Safari WebP encoder.", {
+                returnedType: nativeBlob?.type || "none"
               });
-              if (!compressedBlob || compressedBlob.type !== format) {
-                throw new Error("This browser could not compress the image.");
-              }
             }
           }
 
-          if (compressedBlob.size <= TARGET_BYTES) {
-            break;
+          if (!compressedBlob) {
+            if (!wasmEncoder) wasmEncoder = await getWebpEncoder();
+            const imageData = ctx.getImageData(0, 0, width, height);
+            const encoded = await wasmEncoder(imageData, {
+              quality: Math.round(quality * 100)
+            });
+            compressedBlob = new Blob([encoded], { type: "image/webp" });
           }
+
+          const signature = new Uint8Array(
+            await compressedBlob.slice(0, 12).arrayBuffer()
+          );
+          if (!isGenuineWebp(signature)) {
+            throw new Error("Encoded image is not a valid WebP file.");
+          }
+
+          // Keep the smallest valid result even if the 180 KB target
+          // can't be achieved without unnecessary quality degradation.
+          if (!bestBlob || compressedBlob.size < bestBlob.size) {
+            bestBlob = compressedBlob;
+          }
+          if (compressedBlob.size <= TARGET_BYTES) break;
 
           if (quality > 0.48) {
             quality = Math.max(0.48, quality - 0.10);
           } else if (maxDimension > MIN_DIMENSION) {
-            maxDimension = Math.max(MIN_DIMENSION, Math.round(maxDimension * 0.8));
+            maxDimension = Math.max(
+              MIN_DIMENSION, Math.round(maxDimension * 0.80)
+            );
             quality = 0.72;
           } else {
             quality = Math.max(0.25, quality - 0.08);
           }
         }
-      } finally {
-        if (bitmap.close) bitmap.close();
-      }
 
-      if (!compressedBlob) {
-        throw new Error("Image compression failed.");
-      }
+        if (!bestBlob || bestBlob.size > MAX_BYTES) {
+          throw new Error("Photo could not be compressed to WebP under 250 KB.");
+        }
 
-      if (compressedBlob.size > MAX_BYTES) {
-        throw new Error(
-          `Compressed image is still too large (${Math.ceil(compressedBlob.size / 1024)} KB). Maximum is 200 KB.`
+        const result = new File(
+          [bestBlob],
+          `${baseName}.webp`,
+          { type: "image/webp", lastModified: Date.now() }
         );
-      }
 
-      return new File(
-        [compressedBlob],
-        `${baseName}.${format === "image/webp" ? "webp" : "jpg"}`,
-        { type: format }
-      );
+        console.info("EcoExposure WebP compression", {
+          originalKB: Math.round(blob.size / 1024),
+          webpKB: Math.round(result.size / 1024),
+          compressionMs: Math.round(performance.now() - started)
+        });
+        return result;
+      } finally {
+        bitmap.close?.();
+      }
     }
 
     function sanitizeForFilename(input) {
@@ -684,40 +727,44 @@
       return `EcoExposure_${slot}_${u}_${w}_${s}_${timestampString()}.${ext}`;
     }
 
-    async function uploadOneImage(slotID, slot) {
+    // An already-compressed WebP can be passed in so that compression
+    // happens serially, while network uploads run in groups of three.
+    async function uploadOneImage(slotID, slot, preparedFile = null) {
       const originalBlob = capturedPhotos[slotID] || null;
+      if (!originalBlob) return null;
 
-      if (!originalBlob) {
-        return null;
-      }
-
-      const file = await compressImage(
+      const file = preparedFile || await compressImage(
         originalBlob,
         `EcoExposure_${slot}_${timestampString()}`
       );
 
-      const path =
-        `${currentUser.id}/${filenameFor(slot,file)}`;
-
-      const { error } =
-        await supabaseClient.storage
-       .from("sample-images")
-          .upload(
-            path,
-            file,
-            {
-              cacheControl: "3600",
-              upsert: false,
-              contentType: file.type
-            }
-          );
-
-      if (error) {
-        throw new Error(
-          `${slot} image upload failed: ${error.message}`
-        );
+      // Never send the original JPEG, an oversized file or a mislabeled PNG.
+      if (file.type !== "image/webp" || file.size > 245000) {
+        throw new Error(`${slot}: Photo is not a WebP under 250 KB.`);
+      }
+      const signature = new Uint8Array(
+        await file.slice(0, 12).arrayBuffer()
+      );
+      if (!isGenuineWebp(signature)) {
+        throw new Error(`${slot}: WebP verification failed.`);
       }
 
+      const path = `${currentUser.id}/${filenameFor(slot, file)}`;
+      const started = performance.now();
+      const { error } = await supabaseClient.storage
+        .from("sample-images")
+        .upload(path, file, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: "image/webp"
+        });
+
+      if (error) throw new Error(`${slot} image upload failed: ${error.message}`);
+      console.info("EcoExposure upload complete", {
+        slot,
+        webpKB: Math.round(file.size / 1024),
+        uploadMs: Math.round(performance.now() - started)
+      });
       return path;
     }
 
@@ -770,38 +817,43 @@
       }
 
       try {
-        status.textContent =
-          "Uploading photos...";
-
-        const top_photo =
-          await uploadOneImage(
-            "topImage",
-            "top"
+        // Compress one at a time to avoid excessive simultaneous CPU/memory
+        // pressure in mobile Safari. Never start network transfer with a JPEG.
+        const jobs = Object.entries(imageSlots)
+          .filter(([slotID]) => Boolean(capturedPhotos[slotID]));
+        const prepared = [];
+        for (let i = 0; i < jobs.length; i++) {
+          const [slotID, slot] = jobs[i];
+          status.textContent = `Preparing photo ${i + 1} of ${jobs.length}...`;
+          const file = await compressImage(
+            capturedPhotos[slotID],
+            `EcoExposure_${slot}_${timestampString()}`
           );
+          prepared.push({ slotID, slot, file });
+        }
 
-        const top_grid_photo =
-          await uploadOneImage(
-            "topGridImage",
-            "top_grid"
+        // Upload at most 3 files at once; skip unused camera slots.
+        // allSettled ensures the batch finishes before showing an error.
+        const paths = {};
+        for (let i = 0; i < prepared.length; i += 3) {
+          const batch = prepared.slice(i, i + 3);
+          status.textContent =
+            `Uploading photos ${i + 1}–${i + batch.length} of ${prepared.length}...`;
+          const results = await Promise.allSettled(
+            batch.map(job => uploadOneImage(job.slotID, job.slot, job.file))
           );
+          const failure = results.find(result => result.status === "rejected");
+          if (failure) throw failure.reason;
+          results.forEach((result, j) => {
+            paths[batch[j].slotID] = result.value;
+          });
+        }
 
-        const side_photo =
-          await uploadOneImage(
-            "sideImage",
-            "side"
-          );
-
-        const closeup_photo =
-          await uploadOneImage(
-            "closeUpImage",
-            "closeup"
-          );
-
-        const other_photo =
-          await uploadOneImage(
-            "otherImage",
-            "other"
-          );
+        const top_photo = paths.topImage || null;
+        const top_grid_photo = paths.topGridImage || null;
+        const side_photo = paths.sideImage || null;
+        const closeup_photo = paths.closeUpImage || null;
+        const other_photo = paths.otherImage || null;
 
         status.textContent =
           "Saving sample...";
